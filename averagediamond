@@ -1,0 +1,10 @@
+#include "avgdiamond.h"
+
+#include "ui_avgdiamond.h"
+
+AvgDiamond::AvgDiamond(QDialog* parent, const Diamond& diamond)
+    : QDialog(parent), ui(new Ui::AvgDiamond) {
+  
+}
+
+AvgDiamond::~AvgDiamond() { delete ui; }
