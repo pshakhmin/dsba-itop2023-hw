@@ -6,9 +6,9 @@
 #include <QtGui/QImage>
 #include <QtGui/QPainter>
 
-ChartView::ChartView(QWidget *parent,
-                     QMap<QChar, QList<QPair<size_t, double>>> *dataIn)
-    : QChartView(new QChart(), parent) {
+ChartView::ChartView(QWidget *parent, QMap<QChar, QList<QPair<size_t, double>>> *dataIn)
+    : QChartView(new QChart(), parent)
+{
     data = dataIn;
 
     QList<QScatterSeries *> colorSeries;
@@ -24,7 +24,8 @@ ChartView::ChartView(QWidget *parent,
         colorSeries.push_back(series);
     }
 
-    for (QScatterSeries *series : colorSeries) chart()->addSeries(series);
+    for (QScatterSeries *series : colorSeries)
+        chart()->addSeries(series);
 
     chart()->setTitle("Graph");
     chart()->createDefaultAxes();

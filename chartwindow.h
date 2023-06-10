@@ -11,11 +11,11 @@ class ChartWindow : public QMainWindow
 {
     Q_OBJECT
 
-   public:
+public:
     explicit ChartWindow(QWidget *parent = nullptr);
     ~ChartWindow();
 
-   private:
+private:
     Ui::ChartWindow *ui;
 };
 

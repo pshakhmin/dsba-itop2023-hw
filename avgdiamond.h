@@ -9,15 +9,15 @@ namespace Ui {
 class AvgDiamond;
 }
 
-class AvgDiamond : public QDialog {
+class AvgDiamond : public QDialog
+{
     Q_OBJECT
 
-   public:
-    explicit AvgDiamond(QWidget *parent = nullptr,
-                        const Diamond &diamond = Diamond());
+public:
+    explicit AvgDiamond(QWidget *parent = nullptr, const Diamond &diamond = Diamond());
     ~AvgDiamond();
 
-   private:
+private:
     Ui::AvgDiamond *ui;
 };
 

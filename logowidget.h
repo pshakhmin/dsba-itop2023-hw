@@ -5,13 +5,14 @@
 
 class QPaintEvent;
 
-class LogoWidget : public QWidget {
+class LogoWidget : public QWidget
+{
     Q_OBJECT
 
-   public:
-    LogoWidget(QWidget* parent = nullptr);
+public:
+    LogoWidget(QWidget *parent = nullptr);
     ~LogoWidget();
-    virtual void paintEvent(QPaintEvent* event);
+    virtual void paintEvent(QPaintEvent *event);
 };
 
 #endif // LOGOWIDGET_H

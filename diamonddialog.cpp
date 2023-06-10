@@ -1,8 +1,11 @@
 #include "diamonddialog.h"
 #include "ui_diamonddialog.h"
 
-DiamondDialog::DiamondDialog(Diamond* diamondPtr, QWidget* parent)
-    : QDialog(parent), ui(new Ui::DiamondDialog), diamond(diamondPtr) {
+DiamondDialog::DiamondDialog(Diamond *diamondPtr, QWidget *parent)
+    : QDialog(parent)
+    , ui(new Ui::DiamondDialog)
+    , diamond(diamondPtr)
+{
     ui->setupUi(this);
 
     ui->indexLine->setText(QString::number(diamond->index));
@@ -32,7 +35,8 @@ DiamondDialog::DiamondDialog(Diamond* diamondPtr, QWidget* parent)
     connect(this, SIGNAL(accepted()), this, SLOT(applyDiamondChange()));
 }
 
-void DiamondDialog::applyDiamondChange() {
+void DiamondDialog::applyDiamondChange()
+{
     diamond->carat = ui->caratLine->text().toDouble();
     diamond->cut = ui->cutComboBox->currentText();
     diamond->color = ui->colorComboBox->currentText().at(0);
@@ -44,4 +48,7 @@ void DiamondDialog::applyDiamondChange() {
     diamond->width = ui->widthLine->text().toDouble();
 }
 
-DiamondDialog::~DiamondDialog() { delete ui; }
+DiamondDialog::~DiamondDialog()
+{
+    delete ui;
+}

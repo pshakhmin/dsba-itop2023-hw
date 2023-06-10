@@ -13,14 +13,14 @@ class DiamondDialog : public QDialog
 {
     Q_OBJECT
 
-   public:
+public:
     explicit DiamondDialog(Diamond *diamond, QWidget *parent = nullptr);
     ~DiamondDialog();
 
-   private:
+private:
     Ui::DiamondDialog *ui;
     Diamond *diamond = nullptr;
-   private slots:
+private slots:
     void applyDiamondChange();
 };
 

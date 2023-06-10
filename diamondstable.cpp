@@ -23,17 +23,22 @@ QVariant DiamondsTable::headerData(int section, Qt::Orientation orientation, int
 
 int DiamondsTable::rowCount(const QModelIndex &parent) const
 {
-    if (parent.isValid()) return _data.size();
+    if (parent.isValid())
+        return _data.size();
 
     // FIXME: Implement me!
     return _data.size();
 }
 
-int DiamondsTable::columnCount(const QModelIndex &parent) const { return 6; }
+int DiamondsTable::columnCount(const QModelIndex &parent) const
+{
+    return 6;
+}
 
 QVariant DiamondsTable::data(const QModelIndex &index, int role) const
 {
-    if (role == Qt::DisplayRole) return _data[index.row()][index.column()];
+    if (role == Qt::DisplayRole)
+        return _data[index.row()][index.column()];
 
     return QVariant();
 }
@@ -57,26 +62,34 @@ void DiamondsTable::readData(QString fp)
     }
 }
 
-Diamond DiamondsTable::getDiamondByIndex(size_t index) {
+Diamond DiamondsTable::getDiamondByIndex(size_t index)
+{
     for (const Diamond &curDiamond : _data)
-        if (curDiamond.index == index) return curDiamond;
+        if (curDiamond.index == index)
+            return curDiamond;
     return Diamond();
 }
 
-void DiamondsTable::saveDiamond(const Diamond &diamond) {
+void DiamondsTable::saveDiamond(const Diamond &diamond)
+{
     for (size_t i = 0; i < _data.size(); ++i)
-        if (_data[i].index == diamond.index) _data[i] = diamond;
+        if (_data[i].index == diamond.index)
+            _data[i] = diamond;
 }
 
-Diamond DiamondsTable::getAvgDiamond() {
+Diamond DiamondsTable::getAvgDiamond()
+{
     Diamond avg{};
     QMap<QString, size_t> cutMap;
     QMap<QChar, size_t> colorMap;
     QMap<QString, size_t> clarityMap;
 
-    for (const QString &clarity : Diamond::clarityList) clarityMap[clarity] = 0;
-    for (const QString &cut : Diamond::cutList) clarityMap[cut] = 0;
-    for (int i = 68; i <= 74; ++i) colorMap[QChar(i)] = 0;
+    for (const QString &clarity : Diamond::clarityList)
+        clarityMap[clarity] = 0;
+    for (const QString &cut : Diamond::cutList)
+        clarityMap[cut] = 0;
+    for (int i = 68; i <= 74; ++i)
+        colorMap[QChar(i)] = 0;
 
     for (const Diamond &curDiamond : _data) {
         avg.carat += curDiamond.carat;
@@ -111,46 +124,64 @@ Diamond DiamondsTable::getAvgDiamond() {
     return avg;
 }
 
-void DiamondsTable::getDataForGraph(
-    QMap<QChar, QList<QPair<size_t, double>>> *data) {
+void DiamondsTable::getDataForGraph(QMap<QChar, QList<QPair<size_t, double>>> *data)
+{
     for (const Diamond &curDiamond : _data) {
-        if (!data->contains(curDiamond.color)) (*data)[curDiamond.color] = {};
-        (*data)[curDiamond.color].push_back(
-            {curDiamond.price, curDiamond.carat});
+        if (!data->contains(curDiamond.color))
+            (*data)[curDiamond.color] = {};
+        (*data)[curDiamond.color].push_back({curDiamond.price, curDiamond.carat});
     }
 }
 
-bool DiamondsTable::removeRow(int index, const QModelIndex &modelIndex) {
-    qInfo() << "removing" << index;
-    beginRemoveRows(modelIndex, index, index + 1);
-    for (size_t i = 0; i < _data.size(); ++i)
-        if (_data[i].index == index) {
-            _data.removeAt(i);
-        }
+bool DiamondsTable::removeRows(int position, int rows, const QModelIndex &parent)
+{
+    beginRemoveRows(parent, position, position + rows - 1);
+
+    for (int row = 0; row < rows; ++row) {
+        _data.removeAt(position);
+    }
+
     endRemoveRows();
 
     return true;
 }
 
-void DiamondsTable::saveAs(QString fp) {
+void DiamondsTable::addDiamond(const Diamond &diamond)
+{
+    _data.push_back(diamond);
+}
+
+int DiamondsTable::modelIndexByDiamondIndex(int diamondIndex)
+{
+    for (int i = 0; i < _data.size(); ++i)
+        if (_data[i].index == diamondIndex)
+            return i;
+
+    return 0;
+}
+
+void DiamondsTable::saveAs(QString fp)
+{
     QFile file(fp);
     if (file.open(QIODevice::ReadWrite)) {
         QTextStream stream(&file);
-        for (const QString header : _headers) {
-            for (int i = 0; i < 10; ++i) stream << header << ',';
-            stream << '\n';
-        }
+        for (const QString &header : _headers)
+            stream << header << ',';
+        stream << '\n';
 
         for (const Diamond &diamond : _data) {
-            for (int i = 0; i < 10; ++i) stream << diamond[i].toString() << ',';
+            for (int i = 0; i < 10; ++i)
+                stream << diamond[i].toString() << ',';
             stream << '\n';
         }
     }
 }
 
-Diamond::Diamond(const QString &line) {
+Diamond::Diamond(const QString &line)
+{
     QList<QString> items = line.split(',');
-    for (QString &item : items) item = item.replace("\"", "");
+    for (QString &item : items)
+        item = item.replace("\"", "");
 
     index = items[0].toULongLong();
     carat = items[1].toDouble();
@@ -175,39 +206,41 @@ Diamond::Diamond(const QString &line) {
 }
 
 Diamond::Diamond()
-    : index(0),
-      carat(0),
-      cut("Fair"),
-      color('D'),
-      clarity("I3"),
-      depth(0),
-      table(0),
-      price(0),
-      length(0),
-      width(0) {}
+    : index(0)
+    , carat(0)
+    , cut("Fair")
+    , color('D')
+    , clarity("I3")
+    , depth(0)
+    , table(0)
+    , price(0)
+    , length(0)
+    , width(0)
+{}
 
-QVariant Diamond::operator[](size_t i) const {
+QVariant Diamond::operator[](size_t i) const
+{
     switch (i) {
-        case 0:
-            return QVariant::fromValue(index);
-        case 1:
-            return carat;
-        case 2:
-            return cut;
-        case 3:
-            return color;
-        case 4:
-            return clarity;
-        case 5:
-            return QVariant::fromValue(price);
-        case 6:
-            return depth;
-        case 7:
-            return table;
-        case 8:
-            return length;
-        case 9:
-            return width;
+    case 0:
+        return QVariant::fromValue(index);
+    case 1:
+        return carat;
+    case 2:
+        return cut;
+    case 3:
+        return color;
+    case 4:
+        return clarity;
+    case 5:
+        return QVariant::fromValue(price);
+    case 6:
+        return depth;
+    case 7:
+        return table;
+    case 8:
+        return length;
+    case 9:
+        return width;
     }
     throw std::invalid_argument("Incorrect Diamond index.");
 }

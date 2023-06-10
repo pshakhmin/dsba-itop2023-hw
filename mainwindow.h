@@ -7,7 +7,9 @@
 #include "diamondstable.h"
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui {
+class MainWindow;
+}
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
@@ -17,18 +19,21 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-   private slots:
+private slots:
     void onTableClicked(const QModelIndex &index);
     void avgDiamondClicked();
     void budgetClicked();
     void graphClicked();
     void minusClicked();
+    void plusClicked();
 
     void on_actionOpen_triggered();
 
     void on_actionSave_As_triggered();
 
-   private:
+    void on_actionSave_triggered();
+
+private:
     Ui::MainWindow *ui;
     DiamondSortFilterProxyModel *proxyModel;
     DiamondsTable *table;

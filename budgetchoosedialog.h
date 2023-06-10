@@ -11,16 +11,17 @@ class BudgetChooseDialog : public QDialog
 {
     Q_OBJECT
 
-   public:
+public:
     explicit BudgetChooseDialog(QWidget *parent = nullptr,
-                                double *from = nullptr, double *to = nullptr);
+                                double *from = nullptr,
+                                double *to = nullptr);
     ~BudgetChooseDialog();
 
-   private:
+private:
     Ui::BudgetChooseDialog *ui;
     double *from = nullptr;
     double *to = nullptr;
-   private slots:
+private slots:
     void applyBudget();
 };
 
