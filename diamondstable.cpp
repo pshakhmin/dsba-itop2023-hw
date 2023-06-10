@@ -136,7 +136,7 @@ void DiamondsTable::saveAs(QString fp) {
     QFile file(fp);
     if (file.open(QIODevice::ReadWrite)) {
         QTextStream stream(&file);
-        for (const QString header : _) {
+        for (const QString header : _headers) {
             for (int i = 0; i < 10; ++i) stream << header << ',';
             stream << '\n';
         }
